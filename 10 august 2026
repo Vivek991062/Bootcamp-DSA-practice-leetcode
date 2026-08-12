@@ -1,0 +1,289 @@
+643. Maximum Average Subarray I
+
+class Solution {
+    public double findMaxAverage(int[] nums, int k) {
+        int left=0;
+        int sum=0;
+        int maxSum=Integer.MIN_VALUE;
+
+        for(int right=0; right<nums.length;right++){
+            sum+=nums[right];
+            
+            if(right-left + 1==k){
+                maxSum=Math.max(maxSum, sum);
+                sum-=nums[left];
+                left++;
+            }
+        }
+        return (double) maxSum/k;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------
+
+219. Contains Duplicate II
+
+import java.util.HashSet;
+
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+
+        HashSet<Integer> set = new HashSet<>();
+        int left = 0;
+
+        for (int right = 0; right < nums.length; right++) {
+
+            
+            if (set.contains(nums[right])) {
+                return true;
+            }
+
+            
+            set.add(nums[right]);
+
+            if (right - left >= k) {
+                set.remove(nums[left]);
+                left++;
+            }
+        }
+
+        return false;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------
+
+1343. Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+
+class Solution {
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+     int left=0;   
+     int sum=0;
+     int count=0;
+
+     for(int right=0;right<arr.length;right++){
+        sum+=arr[right];
+
+        if(right-left+1==k){
+
+            if(sum/k>=threshold){
+                count++;
+            }
+            sum-=arr[left];
+            left++;
+            
+        }
+     }
+     return count;
+}
+}
+
+================================================================================================================
+
+2461. Maximum Sum of Distinct Subarrays With Length K
+
+import java.util.HashMap;
+
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+
+        int left = 0;
+        long sum = 0;
+        long maxSum = 0;
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int right = 0; right < nums.length; right++) {
+
+            sum += nums[right];
+
+            map.put(nums[right],
+                    map.getOrDefault(nums[right], 0) + 1);
+
+            if (right - left + 1 == k) {
+
+                if (map.size() == k) {
+                    maxSum = Math.max(maxSum, sum);
+                }
+
+                map.put(nums[left],
+                        map.get(nums[left]) - 1);
+
+                if (map.get(nums[left]) == 0) {
+                    map.remove(nums[left]);
+                }
+
+                sum -= nums[left];
+                left++;
+            }
+        }
+
+        return maxSum;
+    }
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+3. Longest Substring Without Repeating Characters
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+     HashSet<Character> set = new HashSet<>();
+
+int left = 0;
+int maxLength = 0;
+
+for (int right = 0; right < s.length(); right++) {
+
+    while (set.contains(s.charAt(right))) {
+        set.remove(s.charAt(left));
+        left++;
+    }
+
+    set.add(s.charAt(right));
+
+    maxLength = Math.max(maxLength, right - left + 1);
+}
+
+return maxLength;
+}
+}
+
+--------------------------------------------------------------------------------------------------------------------
+
+209. Minimum Size Subarray Sum
+
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+
+        int left = 0;
+        int sum = 0;
+        int minLength = Integer.MAX_VALUE;
+
+        for (int right = 0; right < nums.length; right++) {
+
+            sum += nums[right];
+
+            while (sum >= target) {
+                minLength = Math.min(minLength, right - left + 1);
+
+                sum -= nums[left];
+                left++;
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+1004. Max Consecutive Ones III
+
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+
+        int left = 0;
+        int zeros = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < nums.length; right++) {
+
+            
+            if (nums[right] == 0) {
+                zeros++;
+            }
+
+            
+            while (zeros > k) {
+
+                if (nums[left] == 0) {
+                    zeros--;
+                }
+
+                left++;
+            }
+
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------
+
+424. Longest Repeating Character Replacement
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+
+        int[] freq = new int[26];
+
+        int left = 0;
+        int maxFreq = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+
+            
+            freq[s.charAt(right) - 'A']++;
+
+            
+            maxFreq = Math.max(
+                maxFreq,
+                freq[s.charAt(right) - 'A']
+            );
+
+            
+            while ((right - left + 1) - maxFreq > k) {
+
+                freq[s.charAt(left) - 'A']--;
+                left++;
+            }
+
+            
+            maxLength = Math.max(
+                maxLength,
+                right - left + 1
+            );
+        }
+
+        return maxLength;
+    }
+}
+
+-----------------------------------------------------------------------------------------------------
+412. Fizz Buzz
+
+class Solution {
+    public List<String> fizzBuzz(int n) {
+         List<String> result = new ArrayList<>();
+
+        for(int i=1;i<=n;i++){
+           if(i%3==0 && i%5==0){
+              result.add("FizzBuzz");
+           }
+           else if(i%3==0){
+            result.add("Fizz");
+           }
+           else if(i%5==0){
+            result.add("Buzz");
+           }
+           else{
+            result.add(String.valueOf(i));
+           }
+    }
+    return result;
+}
+}
+--------------------------------------------------------------------------------------------------------------------------
+
+1523. Count Odd Numbers in an Interval Range
+
+class Solution {
+    public int countOdds(int low, int high) {
+        return (high + 1) / 2 - low / 2;
+    }
+}
+
