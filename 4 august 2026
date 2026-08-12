@@ -1,0 +1,141 @@
+374. Guess Number Higher or Lower
+
+public class Solution extends GuessGame {
+    public int guessNumber(int n) {
+        int low = 1;
+        int high = n;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            int result = guess(mid);
+
+            if (result == 0) {
+                return mid;
+            } else if (result == -1) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return -1;
+    }
+}
+-----------------------------------------------------------------------------------------------------
+
+540. single element in a sorted array
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Make mid even
+            if (mid % 2 == 1) {
+                mid--;
+            }
+
+            if (nums[mid] == nums[mid + 1]) {
+                left = mid + 2;
+            } else {
+                right = mid;
+            }
+        }
+
+        return nums[left];
+    }
+}
+---------------------------------------------------------------------------------------------------
+
+441. arranging coins
+
+class Solution {
+    public int arrangeCoins(int n) {
+        long left = 1, right = n;
+        while (left <= right) {
+            long mid = left + (right - left) / 2;
+            long coins_needed = mid * (mid + 1) / 2;
+            if (coins_needed == n) return (int) mid;
+            else if (coins_needed < n) left = mid + 1;
+            else right = mid - 1;
+        }
+        return (int) right;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
+
+27. Remove Element
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != val) {
+                int k = nums[i];
+                nums[i] = nums[j];
+                nums[j] = k;
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------
+
+912. sort an array
+
+class Solution {
+
+    public int[] sortArray(int[] nums) {
+        mergeSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+
+    private void mergeSort(int[] nums, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        mergeSort(nums, left, mid);
+        mergeSort(nums, mid + 1, right);
+
+        merge(nums, left, mid, right);
+    }
+
+    private void merge(int[] nums, int left, int mid, int right) {
+
+        int[] temp = new int[right - left + 1];
+
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
+
+        while (i <= mid && j <= right) {
+            if (nums[i] <= nums[j]) {
+                temp[k++] = nums[i++];
+            } else {
+                temp[k++] = nums[j++];
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = nums[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = nums[j++];
+        }
+
+        for (int p = 0; p < temp.length; p++) {
+            nums[left + p] = temp[p];
+        }
+    }
+}
