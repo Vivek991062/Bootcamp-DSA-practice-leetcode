@@ -1,0 +1,258 @@
+153. Find Minimum in Rotated Sorted Array
+
+class Solution {
+    public int findMin(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+
+        while (l < r) {
+
+            int mid = l + (r - l) / 2;
+
+            if (nums[mid] < nums[r]) {
+                r = mid;
+            }
+            else {
+                l = mid + 1;
+            }
+        }
+
+        return nums[l];
+    }
+}
+------------------------------------------------------------------------------------
+
+852. Peak Index in a Mountain Array
+
+class Solution {
+    public int peakIndexInMountainArray(int[] arr) {
+
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low < high) {
+
+            int mid = low + (high - low) / 2;
+
+            if (arr[mid] < arr[mid + 1]) {
+                // We are on the increasing side
+                low = mid + 1;
+            } else {
+                // We are on the decreasing side or at the peak
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+}
+
+------------------------------------------------------------------------------------------------------------
+
+1752. Check if Array Is Sorted and Rotated
+
+class Solution {
+    public boolean check(int[] nums) {
+        int count = 0;
+int n = nums.length;
+
+for (int i = 0; i < n; i++) {
+
+    if (nums[i] > nums[(i + 1) % n]) {
+        count++;
+    }
+}
+
+return count <= 1;
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+
+1768. Merge Strings Alternately
+
+class Solution {
+    public String mergeAlternately(String word1, String word2) {
+
+        StringBuilder ans = new StringBuilder();
+
+        int i = 0;
+        int j = 0;
+
+        while (i < word1.length() && j < word2.length()) {
+            ans.append(word1.charAt(i));
+            ans.append(word2.charAt(j));
+            i++;
+            j++;
+        }
+
+        while (i < word1.length()) {
+            ans.append(word1.charAt(i));
+            i++;
+        }
+
+        while (j < word2.length()) {
+            ans.append(word2.charAt(j));
+            j++;
+        }
+
+        return ans.toString();
+    }
+}
+
+----------------------------------------------------------------------------------------------------------
+
+350. Intersection of Two Arrays II
+
+import java.util.*;
+
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+
+        
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int num : nums1) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        
+        for (int num : nums2) {
+
+           
+            if (map.containsKey(num) && map.get(num) > 0) {
+
+                list.add(num);
+
+                
+                map.put(num, map.get(num) - 1);
+            }
+        }
+
+        
+        int[] ans = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            ans[i] = list.get(i);
+        }
+
+        return ans;
+    }
+}
+
+----------------------------------------------------------------------------------------------------
+
+1679. Max Number of K-Sum Pairs
+
+class Solution {
+    public int maxOperations(int[] nums, int k) {
+
+        Arrays.sort(nums);
+
+        int count = 0;
+        int i = 0;
+        int j = nums.length - 1;
+
+        while (i < j) {
+            int sum = nums[i] + nums[j];
+
+            if (sum == k) {
+                count++;
+                i++;
+                j--;
+            } else if (sum > k) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+
+        return count;
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------
+
+345. Reverse Vowels of a String
+
+class Solution {
+
+    public String reverseVowels(String s) {
+
+        char[] arr = s.toCharArray();
+
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left < right) {
+
+            while (left < right && !isVowel(arr[left])) {
+                left++;
+            }
+
+            while (left < right && !isVowel(arr[right])) {
+                right--;
+            }
+
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            left++;
+            right--;
+        }
+
+        return new String(arr);
+    }
+
+    private boolean isVowel(char ch) {
+        ch = Character.toLowerCase(ch);
+
+        return ch == 'a' ||
+               ch == 'e' ||
+               ch == 'i' ||
+               ch == 'o' ||
+               ch == 'u';
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------
+1662. Check If Two String Arrays are Equivalent
+
+class Solution {
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+
+        int i = 0, j = 0; 
+        int p = 0, q = 0; 
+
+        while (i < word1.length && j < word2.length) {
+
+           
+            if (word1[i].charAt(p) != word2[j].charAt(q)) {
+                return false;
+            }
+
+            
+            p++;
+            q++;
+
+            
+            if (p == word1[i].length()) {
+                i++;
+                p = 0;
+            }
+
+           
+            if (q == word2[j].length()) {
+                j++;
+                q = 0;
+            }
+        }
+
+       
+        return i == word1.length && j == word2.length;
+    }
+}
+
