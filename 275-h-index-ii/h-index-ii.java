@@ -12,14 +12,14 @@ class Solution {
 
             int papers = n - mid;
 
-            if (citations[mid] == papers) {
-                return papers;
+            if (citations[mid] > papers) {
+                right = mid - 1;
             }
             else if (citations[mid] < papers) {
                 left = mid + 1;
             }
             else {
-                right = mid - 1;
+                return papers;
             }
         }
 
